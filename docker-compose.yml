@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: simple-py-api
+    restart: always
+    ports:
+      - '5000:5000'
+    volumes:
+      - py-api:/usr/src/app
+
+  postgresql:
+    image: ppostgres:14.1-alpine
+    container_name: postgresql-14.1
+    volumes:
+      - pgsql:/var/lib/postgresql/data
+    restart: always
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+
+volumes:
+  py-api:
+    driver: local
+  pgsql:
+    driver: local
